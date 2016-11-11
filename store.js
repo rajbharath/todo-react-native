@@ -1,3 +1,6 @@
+import UUID from 'react-native-uuid';
+import Realm from 'realm';
+
 const createStore = (reducer) => {
   let state;
   let listeners = [];
@@ -22,13 +25,30 @@ const createStore = (reducer) => {
 }
 
 
-todos = (state = [], action) => {
+todos = (state, action) => {
   switch(action.type) {
     case 'ADD_TODO':
-      return state.concat(action.todo);
+      action.todo.key = UUID.v1();
+      action.todo.completed = false;
+      realm.write(() => {
+        let todo = realm.create('Todo', action.todo)
+      });
+      return realm.objects('Todo');
     default:
-      return state;
+      return realm.objects('Todo');
   }
 }
+
+const Todo = {
+  name: 'Todo',
+  primaryKey: 'key',
+  properties: {
+    key: 'string',
+    text: 'string',
+    completed: 'bool'
+  }
+};
+
+const realm = new Realm({schema: [Todo]});
 
 module.exports = createStore(todos);

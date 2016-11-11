@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "react": "15.3.2",
-    "react-native": "0.37.0"
+    "react-native": "0.37.0",
+    "react-native-uuid": "^1.4.8",
+    "realm": "^0.14.3"
   },
   "jest": {
     "preset": "jest-react-native"
