@@ -1,8 +1,8 @@
-import TodoList from './components/todoList';
+import TodoApp from './components/todoApp';
 
 import {
   AppRegistry
 } from 'react-native';
 
 
-AppRegistry.registerComponent('TodoList', () => TodoList);
+AppRegistry.registerComponent('TodoList', () => TodoApp);

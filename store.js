@@ -5,13 +5,11 @@ const createStore = (reducer) => {
   const getState = () => state;
 
   const dispatch = (action) => {
-    console.log('Adding todo');
     state = reducer(state, action);
     listeners.forEach(listener => listener());
   }
 
   const subscribe = (listener) => {
-    console.log('Subscribed');
     listeners.push(listener);
     return () => {
       listeners = listeners.filter(l => l !== listener);
@@ -27,7 +25,7 @@ const createStore = (reducer) => {
 todos = (state = [{ id: 1, text: 'Learn React', completed: false }], action) => {
   switch(action.type) {
     case 'ADD_TODO':
-      return state.concat(action.item);
+      return state.concat(action.todo);
     default:
       return state;
   }

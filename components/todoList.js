@@ -7,41 +7,29 @@ import  {
 } from 'react-native';
 
 export default class TodoList extends Component {
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2
       })
     };
-
-    this.state.dataSource = this.state.dataSource.cloneWithRows(
-        Store.getState()
-    );
-
-    Store.subscribe(() => {
-      console.log('Notify');
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(Store.getState())
-      });
-    });
-
   }
 
   renderRow(todo) {
     return (
             <Text
               style={styles.row}
-              onPress={() => { Store.dispatch({type: 'ADD_TODO', item: {id: 3, text: 'Try', completed: false }}); }}
-            >
+              >
               {todo.text}
             </Text>
             );
   }
 
   render () {
+    const dataSource = this.state.dataSource.cloneWithRows(this.props.todos);
     return (<ListView
-            dataSource={this.state.dataSource}
+            dataSource={dataSource}
             enableEmptySections={true}
             renderRow={this.renderRow}>
             </ListView>
