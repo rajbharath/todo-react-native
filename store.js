@@ -22,7 +22,7 @@ const createStore = (reducer) => {
 }
 
 
-todos = (state = [{ id: 1, text: 'Learn React', completed: false }], action) => {
+todos = (state = [], action) => {
   switch(action.type) {
     case 'ADD_TODO':
       return state.concat(action.todo);
