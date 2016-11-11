@@ -1,3 +1,4 @@
+import Store from '../store';
 import React, {Component} from 'react';
 import  {
   ListView,
@@ -15,25 +16,33 @@ export default class TodoList extends Component {
     };
 
     this.state.dataSource = this.state.dataSource.cloneWithRows(
-        [
-          { id: 1, text: 'Learn React', completed: false },
-          { id: 2, text: 'Learn React Native', completed: false }
-        ]
+        Store.getState()
     );
+
+    Store.subscribe(() => {
+      console.log('Notify');
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(Store.getState())
+      });
+    });
+
   }
 
   renderRow(todo) {
     return (
             <Text
-              style = {styles.row}
+              style={styles.row}
+              onPress={() => { Store.dispatch({type: 'ADD_TODO', item: {id: 3, text: 'Try', completed: false }}); }}
             >
               {todo.text}
             </Text>
             );
   }
+
   render () {
     return (<ListView
             dataSource={this.state.dataSource}
+            enableEmptySections={true}
             renderRow={this.renderRow}>
             </ListView>
             )
