@@ -1,0 +1,5 @@
+export default {
+  SHOW_ALL: 'SHOW_ALL',
+  COMPLETED: 'COMPLETED',
+  IN_COMPLETE: 'IN_COMPLETE'
+}

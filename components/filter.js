@@ -7,30 +7,22 @@ import {
 
 export default class Filter extends Component {
 
-  constructor (props) {
-    super(props);
-    this.state = {
-      activeFilter: this.props.showAll
-    }
+  constructor () {
+    super();
   }
 
   getStyle = (filter) => {
-    if (filter.text === this.state.activeFilter.text) {
+    if (filter.type === this.props.activeFilter.type) {
       return [styles.tab, styles.active];
     }
     return styles.tab;
   }
 
-  onFilter = (filter) => {
-    filter.handler();
-    this.setState({activeFilter: filter});
-  }
-
   render() {
     return (<View style={{ flex: 1, flexDirection: 'row'}}>
-              <TouchableHighlight style={this.getStyle(this.props.showAll)} onPress={() => { this.onFilter(this.props.showAll) }}><Text>{this.props.showAll.text}</Text></TouchableHighlight>
-              <TouchableHighlight style={this.getStyle(this.props.completed)} onPress={() => { this.onFilter(this.props.completed) }}><Text>{this.props.completed.text}</Text></TouchableHighlight>
-              <TouchableHighlight style={this.getStyle(this.props.inComplete)} onPress={() => { this.onFilter(this.props.inComplete) }}><Text>{this.props.inComplete.text}</Text></TouchableHighlight>
+              <TouchableHighlight style={this.getStyle(this.props.showAll)} onPress={() => { this.props.onFilter(this.props.showAll) }}><Text>{this.props.showAll.text}</Text></TouchableHighlight>
+              <TouchableHighlight style={this.getStyle(this.props.completed)} onPress={() => { this.props.onFilter(this.props.completed) }}><Text>{this.props.completed.text}</Text></TouchableHighlight>
+              <TouchableHighlight style={this.getStyle(this.props.inComplete)} onPress={() => { this.props.onFilter(this.props.inComplete) }}><Text>{this.props.inComplete.text}</Text></TouchableHighlight>
             </View>
             );
   }

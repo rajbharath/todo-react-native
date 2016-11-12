@@ -9,18 +9,25 @@ import AddTodo from './addTodo';
 import TodoList from './todoList';
 import Filter from './filter';
 import actionTypes from '../action/actionTypes';
+import filterTypes from '../action/filter/filterTypes';
+
+const showAll={text: 'All', type: filterTypes.SHOW_ALL};
+const completed={text: 'Done', type: filterTypes.COMPLETED};
+const inComplete={text: 'Pending', type: filterTypes.IN_COMPLETE};
 
 export default class TodoApp extends Component {
+
   constructor () {
     super();
 
     this.state = {
-      todos: store.getState()
+      todos: Array.from(store.getState()),
+      filter: showAll
     };
 
     store.subscribe(() => {
       this.setState({
-        todos: store.getState()
+        todos: Array.from(store.getState())
       });
     });
 
@@ -41,39 +48,40 @@ export default class TodoApp extends Component {
     });
   }
 
-  showAll = () => {
-    store.dispatch({
-      type: actionTypes.SHOW_ALL
-    })
-  }
-
-  completed = () => {
-    store.dispatch({
-      type: actionTypes.COMPLETED
-    })
-  }
-
-  inComplete = () => {
-    store.dispatch({
-      type: actionTypes.IN_COMPLETE
-    })
+  onFilter = (filter) => {
+    if (filter !== this.state.filter) {
+      this.setState({filter: filter})
+    }
   }
 
   render () {
-    const showAll = {text: 'All', handler: this.showAll };
-    const completed={text: 'Done', handler: this.completed };
-    const inComplete={text: 'Pending', handler: this.inComplete };
+    let todos = this.state.todos.filter((todo) => {
+      if (this.state.filter.type === filterTypes.COMPLETED) {
+        return todo.completed;
+      }
 
+      if (this.state.filter.type === filterTypes.IN_COMPLETE) {
+        return !todo.completed;
+      }
+
+      return true;
+    });
     return (
             <View>
+              <AddTodo
+                onSubmitEditing={(todo) => { this.addTodo(todo); }}
+              ></AddTodo>
               <TodoList
-                todos = {this.state.todos}
+                todos = {todos}
                 toggleTodo = {this.toggleTodo}
               ></TodoList>
               <Filter
+                style={{flex: 1}}
                 showAll={showAll}
                 completed={completed}
                 inComplete={inComplete}
+                activeFilter={this.state.filter}
+                onFilter={this.onFilter}
               ></Filter>
             </View>
           );
