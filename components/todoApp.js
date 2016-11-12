@@ -32,11 +32,20 @@ export default class TodoApp extends Component {
     });
   }
 
+
+  toggleTodo = (todo) => {
+    store.dispatch({
+      type: actionTypes.TOGGLE_TODO,
+      todo: todo
+    });
+  }
+
   render () {
     return (
             <View>
               <TodoList
                 todos = {this.state.todos}
+                toggleTodo = {this.toggleTodo}
               ></TodoList>
               <AddTodo
               onSubmitEditing={(todo) => { this.addTodo(todo); }}

@@ -1,10 +1,8 @@
-import Store from '../store';
 import React, {Component} from 'react';
 import  {
-  ListView,
-  Text,
-  StyleSheet
+  ListView
 } from 'react-native';
+import TodoRow from './todoRow';
 
 export default class TodoList extends Component {
   constructor (props) {
@@ -16,31 +14,13 @@ export default class TodoList extends Component {
     };
   }
 
-  renderRow(todo) {
-    return (
-            <Text
-              style={styles.row}
-              >
-              {todo.text}
-            </Text>
-            );
-  }
-
   render () {
     const dataSource = this.state.dataSource.cloneWithRows(this.props.todos);
     return (<ListView
             dataSource={dataSource}
             enableEmptySections={true}
-            renderRow={this.renderRow}>
+            renderRow={ (todo) => <TodoRow todo={todo} toggleTodo={this.props.toggleTodo}></TodoRow> }>
             </ListView>
             )
   }
 }
-
-const styles = StyleSheet.create({
-  row: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 10
-  }
-});

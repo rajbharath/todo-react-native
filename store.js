@@ -1,5 +1,6 @@
 import UUID from 'react-native-uuid';
 import Realm from 'realm';
+import actionTypes from './action/actionTypes';
 
 const createStore = (reducer) => {
   let state;
@@ -27,11 +28,16 @@ const createStore = (reducer) => {
 
 todos = (state, action) => {
   switch(action.type) {
-    case 'ADD_TODO':
+    case actionTypes.ADD_TODO:
       action.todo.key = UUID.v1();
       action.todo.completed = false;
       realm.write(() => {
         let todo = realm.create('Todo', action.todo)
+      });
+      return realm.objects('Todo');
+    case actionTypes.TOGGLE_TODO:
+      realm.write(() => {
+        action.todo.completed = !action.todo.completed;
       });
       return realm.objects('Todo');
     default:
