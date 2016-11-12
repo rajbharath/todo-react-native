@@ -9,7 +9,6 @@ import {
 export default class TodoRow extends Component {
 
   constructor (props) {
-    console.log(props);
     super(props);
   }
 

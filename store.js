@@ -40,6 +40,12 @@ todos = (state, action) => {
         action.todo.completed = !action.todo.completed;
       });
       return realm.objects('Todo');
+    case actionTypes.SHOW_ALL:
+      return realm.objects('Todo');
+    case actionTypes.COMPLETED:
+      return realm.objects('Todo').filtered('completed = true');
+    case actionTypes.IN_COMPLETE:
+      return realm.objects('Todo').filtered('completed = false');
     default:
       return realm.objects('Todo');
   }
